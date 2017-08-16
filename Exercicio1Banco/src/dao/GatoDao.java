@@ -7,19 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Animal;
-import model.Cachorro;
+import model.Gato;
 
-public class CachorroDao extends Animal {
+public class GatoDao {
 
 	private final Connection con;
 
-	public CachorroDao(Connection con) {
+	public GatoDao(Connection con) {
 		this.con = con;
 	}
-
+	
 	public boolean inserir(String nome, String cor, int numPatas) throws SQLException {
-		String sql = "INSERT INTO CACHORRO (CACH_CODIGO, CACH_NOME, CACH_COR, CACH_NUM_PATAS, CACH_SOM) VALUES (SEQ_CACHORRO.nextval, ?, ?, ?, 'AuAu')";
+		String sql = "INSERT INTO GATO (GAT_CODIGO, GAT_NOME, GAT_COR, GAT_NUM_PATAS, GAT_SOM) VALUES (SEQ_GATO.nextval, ?, ?, ?, 'Miau')";
 		PreparedStatement statement = con.prepareStatement(sql);
 		statement.setString(1, nome);
 		statement.setString(2, cor);
@@ -29,38 +28,38 @@ public class CachorroDao extends Animal {
 
 	}
 
-	public List<Cachorro> lista() throws SQLException {
-		List<Cachorro> cachorros = new ArrayList<>();
+	public List<Gato> lista() throws SQLException {
+		List<Gato> gatos = new ArrayList<>();
 
-		String sql = "select * from CACHORRO";
+		String sql = "select * from GATO";
 
 		try (PreparedStatement stmt = con.prepareStatement(sql)) {
 			stmt.execute();
 			try (ResultSet rs = stmt.getResultSet()) {
 				while (rs.next()) {
-					int id = rs.getInt("CACH_CODIGO");
-					String nome = rs.getString("CACH_NOME");
-					String cor = rs.getString("CACH_COR");
-					int numPatas = rs.getShort("CACH_NUM_PATAS");
-					String som = rs.getString("CACH_SOM");
+					int id = rs.getInt("GAT_CODIGO");
+					String nome = rs.getString("GAT_NOME");
+					String cor = rs.getString("GAT_COR");
+					int numPatas = rs.getShort("GAT_NUM_PATAS");
+					String som = rs.getString("GAT_SOM");
 
-					Cachorro cachorro = new Cachorro(id, nome, cor, numPatas);
-					cachorros.add(cachorro);
+					Gato gato = new Gato(id, nome, cor, numPatas);
+					gatos.add(gato);
 				}
 			}
 		}
 
-		return cachorros;
+		return gatos;
 
 	}
 	
 	public boolean excluir(int id) throws SQLException{
-		String sql = "DELETE CACHORRO WHERE CACH_CODIGO = ?";
+		String sql = "DELETE CACHORRO WHERE GAT_CODIGO = ?";
 		 
 		PreparedStatement statement = con.prepareStatement(sql);
 		statement.setInt(1, id);
 		 
 		return statement.executeUpdate() > 0;
 	}
-
+	
 }

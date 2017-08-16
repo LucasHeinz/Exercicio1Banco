@@ -18,6 +18,11 @@ public abstract class Animal {
 		this.patas = patas;
 		this.som = som;
 	}
+	
+	@Override
+	public String toString() {
+		return "Nome: " + this.nome + "\nCor: " + this.cor + "\nQuantidade de patas: " + this.patas + "\nSom: " + this.som;
+	}
 
 	public Integer getCodigo() {
 		return codigo;
