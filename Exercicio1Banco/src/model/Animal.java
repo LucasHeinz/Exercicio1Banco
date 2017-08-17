@@ -19,6 +19,12 @@ public abstract class Animal {
 		this.som = som;
 	}
 	
+	public Animal(String nome, String cor, int patas) {
+		this.nome = nome;
+		this.cor = cor;
+		this.patas = patas;
+	}
+	
 	@Override
 	public String toString() {
 		return "Nome: " + this.nome + "\nCor: " + this.cor + "\nQuantidade de patas: " + this.patas + "\nSom: " + this.som;

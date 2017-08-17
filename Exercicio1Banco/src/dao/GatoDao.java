@@ -9,7 +9,7 @@ import java.util.List;
 
 import model.Gato;
 
-public class GatoDao {
+public class GatoDao{
 
 	private final Connection con;
 
@@ -17,12 +17,12 @@ public class GatoDao {
 		this.con = con;
 	}
 	
-	public boolean inserir(String nome, String cor, int numPatas) throws SQLException {
+	public boolean inserir(Gato gato) throws SQLException {
 		String sql = "INSERT INTO GATO (GAT_CODIGO, GAT_NOME, GAT_COR, GAT_NUM_PATAS, GAT_SOM) VALUES (SEQ_GATO.nextval, ?, ?, ?, 'Miau')";
 		PreparedStatement statement = con.prepareStatement(sql);
-		statement.setString(1, nome);
-		statement.setString(2, cor);
-		statement.setInt(3, numPatas);
+		statement.setString(1, gato.getNome());
+		statement.setString(2, gato.getCor());
+		statement.setInt(3, gato.getPatas());
 
 		return statement.executeUpdate() > 0;
 
@@ -43,7 +43,7 @@ public class GatoDao {
 					int numPatas = rs.getShort("GAT_NUM_PATAS");
 					String som = rs.getString("GAT_SOM");
 
-					Gato gato = new Gato(id, nome, cor, numPatas);
+					Gato gato = new Gato(id, nome, cor, numPatas, som);
 					gatos.add(gato);
 				}
 			}
@@ -51,6 +51,16 @@ public class GatoDao {
 
 		return gatos;
 
+	}
+	
+	public boolean alterar(Integer codigo, String nome) throws SQLException {
+		String sql = "UPDATE GATO SET GAT_NOME = ? WHERE GAT_CODIGO = ?";
+
+		PreparedStatement statement = con.prepareStatement(sql);
+		statement.setString(1, nome);
+		statement.setInt(2, codigo);
+
+		return statement.executeUpdate() > 0;
 	}
 	
 	public boolean excluir(int id) throws SQLException{

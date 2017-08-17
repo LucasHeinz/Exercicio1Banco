@@ -7,10 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Animal;
 import model.Cachorro;
 
-public class CachorroDao extends Animal {
+public class CachorroDao {
 
 	private final Connection con;
 
@@ -18,15 +17,25 @@ public class CachorroDao extends Animal {
 		this.con = con;
 	}
 
-	public boolean inserir(String nome, String cor, int numPatas) throws SQLException {
+	public boolean inserir(Cachorro cachorro) throws SQLException {
 		String sql = "INSERT INTO CACHORRO (CACH_CODIGO, CACH_NOME, CACH_COR, CACH_NUM_PATAS, CACH_SOM) VALUES (SEQ_CACHORRO.nextval, ?, ?, ?, 'AuAu')";
 		PreparedStatement statement = con.prepareStatement(sql);
-		statement.setString(1, nome);
-		statement.setString(2, cor);
-		statement.setInt(3, numPatas);
+		statement.setString(1, cachorro.getNome());
+		statement.setString(2, cachorro.getCor());
+		statement.setInt(3, cachorro.getPatas());
 
 		return statement.executeUpdate() > 0;
 
+	}
+	
+	public boolean alterar(Integer codigo, String nome) throws SQLException{
+		String sql = "UPDATE CACHORRO SET CACH_NOME = ? WHERE CACH_CODIGO = ?";
+		 
+		PreparedStatement statement = con.prepareStatement(sql);
+		statement.setString(1, nome);
+		statement.setInt(2, codigo);
+		 
+		return statement.executeUpdate() > 0;
 	}
 
 	public List<Cachorro> lista() throws SQLException {
@@ -44,7 +53,7 @@ public class CachorroDao extends Animal {
 					int numPatas = rs.getShort("CACH_NUM_PATAS");
 					String som = rs.getString("CACH_SOM");
 
-					Cachorro cachorro = new Cachorro(id, nome, cor, numPatas);
+					Cachorro cachorro = new Cachorro(id, nome, cor, numPatas, som);
 					cachorros.add(cachorro);
 				}
 			}

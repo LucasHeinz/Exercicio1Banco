@@ -5,18 +5,23 @@ import java.sql.SQLException;
 import java.util.List;
 
 import jdbc.ConnectionPoolOracle;
-import dao.GatoDao;
 import model.Gato;
+import service.GatoService;
 
 public class TesteGato {
 
 	public static void main(String[] args) throws SQLException {
 		try(Connection con = new ConnectionPoolOracle().getConnection()) {
-			GatoDao gatoDao = new GatoDao(con);
+			Gato gato = new Gato("Rex", "Cinza", 4);
+			GatoService gatoService = new GatoService();
+			gatoService.inserir(gato);
 			
-			gatoDao.inserir("Rex", "Cinza", 4);
+			List<Gato> gatos = gatoService.lista(); 
+			for (Gato gat : gatos) {
+				System.out.println(gat.toString());
+			}
 			
-			
+			gatoService.excluir(2);
 		}
 	}
 }

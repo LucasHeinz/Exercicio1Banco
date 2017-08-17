@@ -13,11 +13,12 @@ public class TesteCachorro {
 	public static void main(String[] args) throws SQLException {
 		try(Connection con = new ConnectionPoolOracle().getConnection()) {
 			CachorroDao cachorroDao = new CachorroDao(con);
-			cachorroDao.inserir("Bobe", "Azul", 4);
+			Cachorro cachorro = new Cachorro("Bobe", "Azul", 4);
+			cachorroDao.inserir(cachorro);
 			
 			List<Cachorro> cachorros = cachorroDao.lista(); 
-			for (Cachorro cachorro : cachorros) {
-				System.out.println(cachorro);
+			for (Cachorro cach : cachorros) {
+				System.out.println(cach.toString());
 			}
 			
 			cachorroDao.excluir(2);

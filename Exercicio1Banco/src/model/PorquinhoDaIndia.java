@@ -6,4 +6,9 @@ public class PorquinhoDaIndia extends Animal {
 		super(codigo, nome, cor, patas, "Nhôi");
 	}
 
+	public PorquinhoDaIndia(Integer codigo, String nome, String cor, int patas, String som) {
+		super(codigo, nome, cor, patas, som);
+		}
+
+	
 }
